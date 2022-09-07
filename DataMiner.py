@@ -77,12 +77,13 @@ class DataMiner:
                     else:
                         sheet.column_dimensions[get_column_letter(num1 + 1)].width = 20
 
-                for idx in range(0, 127):
+                for idx in range(0, 128):
                     # TODO: przerobić na wklejanie całej tabeli zamiast każdej komórki z osobna
                     for num in range(0, len(data[f'{name}']['data'][idx])):
                         if num == 0:
                             cd = sheet[f"{string.ascii_uppercase[num]}{idx + 2}"]
                             cd.value = idx + 1
+
                             cd = sheet[f"{string.ascii_uppercase[num + 2]}{idx + 2}"]
                             cd.value = float(data[f'{name}']['data'][idx][num])
                         elif num == 1:
