@@ -7,9 +7,9 @@ import os
 
 class DataMiner:
     def __init__(self, backup_path, input_string):
-        self.timer1 = float
-        self.timer2 = float
-        self.timer3 = float
+        self.timer1 = 0
+        self.timer2 = 0
+        self.timer3 = 0
         self.backup_path = backup_path
         self.input_string = input_string
 
@@ -19,7 +19,7 @@ class DataMiner:
               'loads': ["load_data", "load_name", "M", "X", "Y", "Z", "A", "B", "C", "Ix", "Iy", "Iz"],
               }
 
-    def create_file(self):
+    async def create_file(self):
         self.timer1 = time.time()
 
         data = {'bases':
@@ -101,11 +101,12 @@ class DataMiner:
 
             wb.save(filename=f"{self.input_string}\\config_data_{self.backup_path}.xlsx")
             self.timer2 = time.time()
-            self.absolute_time()
-            self.excel_time()
+        else:
+            self.timer1 = 0
 
     def absolute_time(self):
-        print(self.timer2 - self.timer1)
+        if self.timer1 != 0 or self.timer2 != 0:
+            return self.timer2 - self.timer1
 
     def excel_time(self):
-        print(self.timer2 - self.timer3)
+        return self.timer2 - self.timer3
