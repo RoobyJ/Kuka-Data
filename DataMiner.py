@@ -104,6 +104,7 @@ class DataMiner:
             self.timer2 = time.time()
         else:
             self.timer1 = 0
+            # print(config_path + 'this isn\'t a config!')
 
     def absolute_time(self):
         if self.timer1 != 0 or self.timer2 != 0:

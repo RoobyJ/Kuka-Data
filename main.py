@@ -1,6 +1,7 @@
 #!Python3.8.10
 import os
 import asyncio
+import sys
 from DataMiner import DataMiner
 
 time_list = []
@@ -22,15 +23,13 @@ async def config_to_excel(_backup, _input_string):
 
 
 async def main():
-    while True:
-        input_string = input("Enter path to backups:")
-        if os.path.exists(os.path.dirname(input_string)):
-            break
-
-    for backup in os.listdir(input_string):
-        await config_to_excel(backup, input_string)
-    print(mean())
-
+    input_string = sys.argv[1]
+    if os.path.exists(os.path.dirname(input_string)):
+        for backup in os.listdir(input_string):
+            await config_to_excel(backup, input_string)
+        print(mean())
+    else:
+        print('given path is incorrect \n should look like this example "C:\\Projects\\NameofProject\\Backups"')
 
 if __name__ == "__main__":
     asyncio.run(main())
