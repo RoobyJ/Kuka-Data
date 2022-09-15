@@ -36,6 +36,7 @@ class DataMiner:
 
                 }
         config_path = os.path.join(self.input_string, self.backup_path) + "\\KRC\\R1\\System\\$config.dat"
+
         # reading data from $config.dat file and clearing it to use it later in Excel
         if os.path.exists(config_path):
             with open(config_path, "r") as f:
