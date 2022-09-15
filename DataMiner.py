@@ -36,11 +36,10 @@ class DataMiner:
 
                 }
         config_path = os.path.join(self.input_string, self.backup_path) + "\\KRC\\R1\\System\\$config.dat"
-        # przerobic tak zeby nie było tyle if elif 2 tabele gdzie beda nazwy i dane i bedzie sprawdzac czy nalezy
+        # reading data from $config.dat file and clearing it to use it later in Excel
         if os.path.exists(config_path):
             with open(config_path, "r") as f:
                 for line in f.readlines():
-
                     if line.startswith("BASE_DATA"):
                         data['bases']['data'].append(line[line.find("{"):].replace("{", "").replace("}", "")
                                                      .translate(self.translation_table).split(","))
@@ -67,7 +66,7 @@ class DataMiner:
 
             for name in data_key_list:
 
-                # Here is the excel file configured
+                # Here is the Excel file configured
                 for num1 in range(0, len(self.titles[f'{name}'])):
                     sheet.title = f"{name}"
                     ct = sheet[f"{string.ascii_uppercase[num1]}{1}"]
@@ -78,7 +77,6 @@ class DataMiner:
                         sheet.column_dimensions[get_column_letter(num1 + 1)].width = 20
 
                 for idx in range(0, 128):
-                    # TODO: przerobić na wklejanie całej tabeli zamiast każdej komórki z osobna
                     for num in range(0, len(data[f'{name}']['data'][idx])):
                         if num == 0:
                             cd = sheet[f"{string.ascii_uppercase[num]}{idx + 2}"]
@@ -100,15 +98,18 @@ class DataMiner:
                     sheet = wb[f"{data_key_list[sheet_num + 1]}"]
                     sheet_num += 1
 
+            # the Excel will be created in the folder where are backups
             wb.save(filename=f"{self.input_string}\\config_data_{self.backup_path}.xlsx")
             self.timer2 = time.time()
         else:
             self.timer1 = 0
             # print(config_path + 'this isn\'t a config!')
 
+    # func for performance measure, returns time for one full process
     def absolute_time(self):
         if self.timer1 != 0 or self.timer2 != 0:
             return self.timer2 - self.timer1
 
+    # func for testing Excel creating time
     def excel_time(self):
         return self.timer2 - self.timer3

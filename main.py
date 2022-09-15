@@ -7,6 +7,7 @@ from DataMiner import DataMiner
 time_list = []
 
 
+# this function is for performance measuring
 def mean():
     temp = 0
     for var in time_list:
@@ -22,6 +23,7 @@ async def config_to_excel(_backup, _input_string):
         time_list.append(resp)
 
 
+# by making the program async we save much time example for 32 backups async does it in ~2.9s, synchronous needs ~5s
 async def main():
     input_string = sys.argv[1]
     if os.path.exists(os.path.dirname(input_string)):
