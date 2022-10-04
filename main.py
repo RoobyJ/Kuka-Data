@@ -5,14 +5,6 @@ import sys
 from DataMiner import DataMiner
 
 
-# this function is for performance measuring
-def mean(_time_list):
-    temp = 0
-    for var in _time_list:
-        temp += var
-    return temp
-
-
 async def config_to_excel(_backup, _input_string, _time_list):
     obj = DataMiner(_backup, _input_string)
     await obj.create_file()
@@ -28,7 +20,7 @@ async def main():
     if os.path.exists(os.path.dirname(input_string)):
         for backup in os.listdir(input_string):
             await config_to_excel(backup, input_string, time_list)
-        print(mean(time_list))
+        print(sum(time_list))
     else:
         print('given path is incorrect \n should look like this example "C:\\Projects\\NameofProject\\Backups"')
 
